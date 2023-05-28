@@ -1,0 +1,85 @@
+<?php
+
+session_start();
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Perfil Cuidador</title>
+</head>
+
+<body>
+
+<?php
+
+if(isset($_SESSION["status"])){
+    echo "<h4>".$_SESSION["status"]."</h4>";
+    unset($_SESSION["status"]);
+}
+
+?>
+
+EDIÇÃO AQUI
+
+<form action="edicaoPainelCodigo.php" method="post">
+
+    <p>ID:<input type="text" name="id"></p> 
+
+    <p>Nome: <input type="text" name="nome"></p>
+
+    <p>CPF: <input type="number" name="cpf"></p>
+
+    <p>Email: <input type="email" name="email"></p>
+
+    <p><input type="submit" value="EDITAR" name="enviar"></p>
+
+</form>
+
+<p>Deseja voltar para ao Painel do Cuidador? <a href="painel.php">Clique aqui!</a></p>
+    
+</body>
+
+</html>
+
+
+
+
+
+
+EDIÇÃOPAINELCODIGO:
+
+
+<?php
+
+session_start();
+$conn = mysqli_connect("localhost", "root", "OlavoVales21092004", "projetopit");
+
+if(isset($_POST["enviar"])){
+
+    $id2 = $_POST["id"];
+
+    $nome2 = $_POST["nome"];
+
+    $cpf2 = $_POST["cpf"];
+
+    $email2 = $_POST["email"];
+
+    $query= "UPDATE dadoscadastro SET nome='$nome2', cpf='$cpf2', email='$email2' WHERE id='$id2' ";
+    $query_run = mysqli_query($conn, $query);
+
+    if($query_run){
+        $_SESSION["status"] = "Dados atualizados com sucesso.";
+        header("Location: edicaoPainelBase.php");
+
+    }else{
+        $_SESSION["status"] = "Não atualizado.";
+        header("Location: edicaoPainelBase.php");
+    }
+}
+
+?>

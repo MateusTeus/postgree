@@ -1,0 +1,18 @@
+<?php
+
+session_start();
+$conn = mysqli_connect("localhost", "root", "OlavoVales21092004", "projetopit");
+
+if($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $nome = intval($_POST["nome"]);
+    $email = $_POST["email"];
+    $senha = $_POST["senha"];
+
+    $sqlInsert = "UPDATE user SET email=?, senha=? WHERE nome=?";
+    $stmt = $conexao->prepare($sqlInsert);
+    $stmt->bind_param("sssi", $nome, $email, $senha, $id);
+    $stmt->execute();
+    header("Location: edicaoPainelBase.php"); 
+
+?>

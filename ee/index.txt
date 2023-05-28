@@ -1,0 +1,103 @@
+<?php
+
+/*session_start();
+if (!isset($_SESSION["user"])) {
+    header("Location: painel.php");
+}
+*/
+?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+</head>
+
+<body>
+
+
+
+<?php
+
+    /*mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);*/
+
+    if (isset($_POST["enviar"])) {
+        $Nome = $_POST["nome"];
+        $Cpf = $_POST["cpf"];
+        $Email = $_POST["email"];
+        $Senha = $_POST["senha"];
+
+        $SenhaHash = password_hash($Senha, PASSWORD_DEFAULT);
+
+        /*$Erros = array();
+        
+        if (empty($Nome) OR empty($Cpf) OR empty($Email) OR empty($Senha)) {                        
+            array_push($Erros,"É necessário que todos os campos sejam preenchidos!");               
+         }
+        if (!filter_var($Email, FILTER_VALIDATE_EMAIL)) {                              FILTER_VAR — FILTRA A VARIÁVEL COM UM ESPECIFICADO FILTRO         
+            array_push($Erros,"O e-mail não é válido.");    
+        }
+        if (strlen($Senha)<8) {                                                       STRLEN — RETORNA O TAMANHO DE UMA STRING                     
+            array_push($Erros,"A senha deve conter pelo menos 8 caracteres");                  
+        }
+
+        require_once "database.php";
+        
+        $sql = "SELECT * FROM dadoscadastro WHERE email = '$Email'";
+        $result = mysqli_query($conn, $sql);                                                             
+        $RowCount = mysqli_num_rows($result);                                                     
+        if ($RowCount>0) {
+            array_push($Erros,"Email já cadastrado.");
+        }
+
+        if(count($Erros)>0) {
+            foreach ($Erros as $Erro) {                                        PERGUNTAR PROFESSOR PHP SOBRE ESSA CONDIÇÃO                 
+                echo "$Erro";
+            }
+        }
+        
+        else{
+        */
+        
+        require_once "database.php";
+        
+        $sql = "INSERT INTO dadoscadastro (nome,cpf,email,senha) VALUES ( ?, ?, ?, ?)";
+        $stmt = mysqli_stmt_init($conn); /*inicia o parametro(statement)*/
+        $prepareStmt = mysqli_stmt_prepare($stmt,$sql); /*prepara o parametro(statement)*/
+        if ($prepareStmt) {
+            mysqli_stmt_bind_param($stmt,"siss",$Nome, $Cpf, $Email, $SenhaHash);
+            mysqli_stmt_execute($stmt);
+            echo "Cadastro feito com sucesso.";
+        }
+        
+        else{
+            die("Houve um erro.");
+        }
+
+        }
+
+    /*}*/
+    
+?>
+
+<form action="login.php" method="post">
+
+    <p>Nome: <input type="text" name="nome"></p>
+
+    <p>CPF: <input type="number" name="cpf"></p>
+
+    <p>Email: <input type="email" name="email"></p>
+
+    <p>Senha: <input type="password" name="senha"></p>
+
+    <p><input type="submit" value="ENVIAR DADOS" name="enviar"></p>
+
+</form>
+    
+</body>
+
+</html>

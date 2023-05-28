@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Perfil Cuidador</title>
+</head>
+
+<body>
+
+<?php
+
+if(isset($_GET["nome"])) {
+
+    $nome = $_GET["nome"];
+
+    $sqlSelect = "SELECT * FROM user WHERE nome=$nome";
+
+    $result = $conexao->query($sqlSelect);
+
+    if($result->num_rows > 0){
+
+        while($user_data = mysqli_fetch_assoc($result)){
+            $id = $user_data["id"];
+            $nome = $user_data["nome"];
+            $email = $user_data["email"];
+            $senha = $user_data["senha"];
+
+        }
+        //print_r($nome);
+    }
+
+}
+
+?>
+
+EDIÇÃO AQUI
+
+<form action="EdicaoPainelCodigo.php" method="post">
+
+    <p>Nome: <input type="text" name="nome" value="<?php echo ( isset ( $rows['nome'] ) ? $rows['nome'] : '' ); ?>"></p>
+
+    <p>CPF: <input type="number" name="cpf" value="<?php echo ( isset ( $rows['cpf'] ) ? $rows['cpf'] : '' ); ?>"></p>
+
+    <p>Email: <input type="email" name="email" value="<?php echo ( isset ( $rows['email'] ) ? $rows['email'] : '' ); ?>"></p>
+
+    <p><input type="submit" value="EDITAR" name="enviar" ></p>
+
+</form>
+
+<p>Deseja voltar para ao Painel do Cuidador? <a href="painel.php">Clique aqui!</a></p>
+    
+</body>
+
+</html>
+
+}
